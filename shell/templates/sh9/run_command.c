@@ -16,16 +16,23 @@
 
 void run_command(char **myArgv) {
   pid_t pid;
-  int stat;
+  int stat,i;
   int run_in_background;
-
+  int timer_started = FALSE;
   /*
    * Check for background processing.
    * Do this before fork() as the "&" is removed from the argv array
    * as a side effect.
    */
   run_in_background = is_background(myArgv);
+  if ( !strcmp(myArgv[0], "time") ){
+     set_timer();
+     timer_started = TRUE;
+     for (i=1;myArgv[i]!=NULL;++i)
+         myArgv[i-1] = myArgv[i];
+     myArgv[i-1] = NULL;
 
+  }
   switch(pid = fork()) {
 
     /* Error. */
@@ -38,7 +45,10 @@ void run_command(char **myArgv) {
       if (!run_in_background) {
 
         waitpid(pid,&stat,0);	/* Wait for child to terminate. */
-
+        if (timer_started){
+           stop_timer();
+           timer_started = FALSE;
+        }
 	display_status(pid, stat);
       }
       return;

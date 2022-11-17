@@ -40,7 +40,8 @@ void run_command(char **myArgv) {
     case 0 :
 
       /* Restore default signal handling for ^C and ^\. */
-      /* Fill in code. */
+      sigset(SIGINT, SIG_DFL); 
+      sigset(SIGQUIT, SIG_DFL);       
 
       if (redirect_in(myArgv)) {	/* Redirect input and update argv. */
 	fputs ("Missing input file.", stderr);

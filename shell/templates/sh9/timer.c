@@ -14,7 +14,7 @@ static clock_t old;
 void set_timer(void) {
   struct tms tmbuf;
 
-  /* Fill in code. */
+  old = times(&tmbuf); 
 }
 
 
@@ -23,8 +23,13 @@ void stop_timer(void) {
   struct tms tmbuf;
   clock_t new;
   double ticks;
-
+  ticks = sysconf(_SC_CLK_TCK);
   /* Get delta times and print them out. */
-  /* Fill in code. */
+  new = times(&tmbuf); 
+  if (old){
+    fprintf(stderr, "Sys %6.2f User %6.2f Real %6.2f\n",tmbuf.tms_cstime/ticks,
+       tmbuf.tms_cutime/ticks, (new-old)/ticks ); 
+    old=0;
+  }
 }
 

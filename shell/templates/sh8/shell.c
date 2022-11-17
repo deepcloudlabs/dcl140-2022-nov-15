@@ -15,10 +15,14 @@ main() {
   struct sigaction child_handling;
 
   /* Ignore ^C and ^\ in shell, so they are passed on to child processes. */
-  /* Fill in code. */
+  sigset(SIGINT, SIG_IGN); 
+  sigset(SIGQUIT, SIG_IGN); 
 
   /* Optional exercise: Set up to reap children run in the background. */
-  /* Fill in code. */
+  child_handling.sa_handler = child_handler;
+  child_handling.sa_flags = SA_RESTART;
+  sigfillset(&child_handling.sa_mask);  
+  //sigaction(SIGCHLD, &child_handling,(struct sigaction*) NULL);
 
   fputs("myshell -> ",stdout);
   while (fgets(line,LONGLINE,stdin)) {
