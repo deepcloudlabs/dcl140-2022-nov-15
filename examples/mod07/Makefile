@@ -1,5 +1,10 @@
-mycreate:	mycreate.c
-	cc -Wno-int-to-pointer-cast -Wno-int-to-pointer-cast -Wno-pointer-to-int-cast -o mycreate mycreate.c -lpthread
+target : serial parallel
 
-clean:	
-	rm -f mycreate
+serial: serial_sum.c
+	gcc -o serial_sum serial_sum.c
+
+parallel: parallel_sum.c 
+	gcc -o parallel_sum parallel_sum.c -lpthread -pthread
+
+clean :
+	rm -f *.o

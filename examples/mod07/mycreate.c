@@ -1,7 +1,6 @@
 /* Compile as "cc -o mycreate mycreate.c -lpthread" */
 
 #include <pthread.h>
-#include <unistd.h>
 #include <stdio.h>
 #define NUM_THREADS 5
 #define SLEEP_TIME 10
@@ -38,7 +37,7 @@ void* sleeping(void * arg) {
   return ((void *)sleep_time);
 }
 
-int main() {
+main() {
   thread_start();
   thread_wait();
 }
